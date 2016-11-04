@@ -6,5 +6,6 @@ import categoriesView from './categories/categories'
 const rootReducer = reduceReducers(categories, category)
 
 const store = new Store(rootReducer, initialCategories)
+window.state = store.getState
 
 categoriesView(store, categoriesActions)

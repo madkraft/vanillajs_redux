@@ -16,6 +16,8 @@ export const categories = (state, action) => {
   switch (action.type) {
     case 'GET_CATEGORIES':
       return action.payload || state
+    case 'ADD_CATEGORY':
+      return action.payload || state
     default:
       return state
   }
@@ -49,9 +51,14 @@ export const categoriesActions = () => {
     return { type: 'GET_CURRENT_CATEGORY', payload: category }
   }
 
+  const addCategory = (category) => {
+    return { type: 'ADD_CATEGORY', payload: category }
+  }
+
   return {
     getCategories,
-    selectCategory
+    selectCategory,
+    addCategory
   }
 }
 

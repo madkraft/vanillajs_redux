@@ -1,19 +1,21 @@
 import yo from 'yo-yo'
+import AddCategory from './add-categories'
+import {category} from './categories.state'
 
 export default function Categories (store, categoriesActions) {
   let actions = categoriesActions()
-  let bears = []
+  let categories = []
   let unsub = store.subscribe(() => {
-    bears = store.getState()
+    categories = store.getState()
     render({
-      data: bears,
+      data: categories,
       update: true,
       oldElement: initialElement
     })
   })
 
   let initialElement = render({
-    data: bears,
+    data: categories,
     update: false,
     oldElement: ''
   })
@@ -34,11 +36,20 @@ export default function Categories (store, categoriesActions) {
 
   let timeout2 = setTimeout(() => {
     let payload = [
-      {id: 0, name: 'Hello'}
+      {id: 0, name: 'Hello'},
+      {id: 1, name: 'World'}
     ]
 
     store.dispatch(actions.getCategories(payload))
   }, 4000)
+
+
+  function onClick (item, event) {
+    let currentCategory = category(currentCategory, actions.selectCategory(item))
+    console.log(currentCategory)
+
+    store.dispatch(actions.selectCategory([item]))
+  }
 
 
   function render (args) {
@@ -52,15 +63,17 @@ export default function Categories (store, categoriesActions) {
       return yo `
         <div>
           <ul>
-            ${items.map(item => yo `<li>${item.name}</li>`)}
+            ${items.map(item => yo `
+              <li onclick=${onClick.bind(null, item)}>${item.name}</li>
+            `)}
           </ul>
         </div>
       `
     }
   }
+  AddCategory(store, categoriesActions)
 
 
-  // <button onclick=${onClick}>Add bear</button>
 
 }
 
