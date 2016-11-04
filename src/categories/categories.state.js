@@ -4,33 +4,41 @@ export const initialCategories = [
   {id: 2, name: 'Grizzly'}
 ]
 
-export const categories = (state, args) => {
+/////////////////////////////////////
+///// REDUCERS
+//////////////////////////////////////
+
+export const categories = (state, action) => {
   if (!state) {
     state = initialCategories
   }
 
-  switch (args.type) {
+  switch (action.type) {
     case 'GET_CATEGORIES':
-      return args.payload || state
+      return action.payload || state
     default:
       return state
   }
 }
 
 
-export const category = (state, args) => {
+export const category = (state, action) => {
   if (!state) {
     state = {}
   }
 
-  switch (args.type) {
+  switch (action.type) {
     case 'GET_CURRENT_CATEGORY':
-      return args.payload || state
+      return action.payload || state
     default:
       return state
   }
 }
 
+
+////////////////////////////
+///// Actions
+//////////////////////////
 
 export const categoriesActions = () => {
   const getCategories = (categories) => {
@@ -45,4 +53,12 @@ export const categoriesActions = () => {
     getCategories,
     selectCategory
   }
+}
+
+export function reduceReducers(...reducers) {
+  return (previous, current) =>
+    reducers.reduce(
+      (p, r) => r(p, current),
+      previous
+    );
 }

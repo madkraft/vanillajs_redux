@@ -1,8 +1,10 @@
 import Store from './app.store'
-import { categories, initialCategories, categoriesActions } from './categories/categories.state'
+import { categories, category, initialCategories, categoriesActions, reduceReducers } from './categories/categories.state'
 import categoriesView from './categories/categories'
 
-const store = new Store(categories, initialCategories)
-window.store = store
+
+const rootReducer = reduceReducers(categories, category)
+
+const store = new Store(rootReducer, initialCategories)
 
 categoriesView(store, categoriesActions)
